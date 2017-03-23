@@ -1,0 +1,110 @@
+%
+%	TSD 2017
+%	LaTeX Template for Camera-ready Version
+%
+%	Rel. 2013-05-20 by Ivan Habernal (habernal@kiv.zcu.cz)
+%	Rel. 2014-11-21 by Kamil Ekstein (kekstein@kiv.zcu.cz)
+%   Rel. 2015-02-23 by Pavel Kral    (pkral@kiv.zcu.cz)
+%	Rel. 2017-02-06 by Kamil Ekstein (kekstein@kiv.zcu.cz)
+%
+%	Based upon Springer's LNCS series template.
+%
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{times}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{url}
+
+% TSD 2017: Add any additional packages you use in your manuscript
+% -----pack
+% \usepackage{xxx}
+% -----
+
+% TSD 2017: Add your custom definitions etc., if required
+% -----misc
+% \newcommand{\xxx}[1]{[#1]}
+% -----
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+% TSD2017: Put your e-mail addresses here
+\urldef{\mailsa}\path|{author1, author2}@institute1.org|
+\urldef{\mailsb}\path|author3@institute2.org|
+%\urldef{\mailsc}\path|other_mails_if_needed|    
+
+\begin{document}
+
+% TSD 2017: Put your title here (please, use capitalization, see e.g.
+% http://en.wikibooks.org/wiki/Basic_Book_Design/Capitalizing_Words_in_Titles)
+\title{Medieval Latin Dictation}
+
+% TSD 2017: a short form should be given in case the title is too long for the running head
+\titlerunning{Medieval Latin Dictation}
+
+% TSD 2017: Author's names. Chinese authors should write their first names(s)
+% in front of their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+% If the names contain accented characters, please use escape codes
+% (refer to http://en.wikibooks.org/wiki/LaTeX/Special_Characters#Escaped_codes)
+\author{Firstname1 Surname1 \and Firstname2 Surname2 \and Firstname3 Surname3}
+
+% TSD 2017: For authors from different institutions, please use the following
+% form including institution reference
+% \author{Firstname1 Surname1\inst{1} \and Firstname2 Surname2 \inst{2}}
+
+% TSD 2017: Author's names for headings. For 1-2 authors, use the following form
+\authorrunning{Firstname1 Surname1 and Firstname2 Surname2}
+% TSD 2017: For more than 2 authors, please, use the following
+% \authorrunning{Name1 Surname1 et al.}
+
+% TSD 2017: The authors' affiliations
+\institute{Affiliation1, Institute1, Address \\
+% TSD 2017: optional url
+\url{www.website.org} \\
+\mailsa\\
+% TSD 2017: For authors from different institutions, add 2nd institution, etc.
+% \and
+% Affiliation2, Institute2, Address \\
+% \url{www.website.org} \\
+% \mailsb\\
+}
+
+% TSD 2017: Put all authors' names to the proceeding index (surname, first name)
+\index{Surname1, Firstname1}
+\index{Surname2, Firstname2}
+
+\toctitle{} \tocauthor{}
+
+\maketitle
+
+%
+%
+%	TSD2017 SUBMISSION TEXT
+%
+%
+\begin{abstract}
+% TSD 2017:
+Abstract goes here.
+% TSD 2017: keywords, comma-separated
+\keywords{keyword1, keyword2, keyword3}
+\end{abstract}
+
+\section{Introduction}
+Your content.
+
+\subsection{Subsection}
+One example of the reference~\cite{paper}.
+
+\section{Detailed Information}
+Details about how to typeset specific paper parts (like e.g. formulae, code excerpts, etc.) can be found in the
+following document:~
+\url{http://static.springer.com/sgw/documents/1121537/application/pdf/SPLNPROC+Author+Instructions_Nov2014.pdf}
+
+% Bibliography
+\bibliographystyle{splncs03}
+\bibliography{paper}
+
+\end{document}
