@@ -1,4 +1,4 @@
-# vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 import sqlite3
 
@@ -88,11 +88,11 @@ class CREATEDB:
 
         ## Get paragraph language.
         if 'Fridericus' in record_name:
-            paragraph_language = 'CZ'
+            paragraph_language = 'PL'
         elif 'Nicolaus' in record_name:
             paragraph_language = 'HU'
         elif 'Wencezlaus' in record_name:
-            paragraph_language = 'PL'
+            paragraph_language = 'CZ'
         else:
             paragraph_language = None
 
@@ -137,26 +137,12 @@ class CREATEDB:
                     self.add_to_all_data(am_language,speaker_language,paragraph_language,training_unit,wer)
                 c += 1
 
-    def query_db(self):
-        ## Extract PL GRAPHEME results.
-        training_unit = 'GRAPHEME'
-        am_language = 'PL'
-        self.cur.execute('''SELECT id FROM TrainingUnit WHERE training_unit = ? ''', (training_unit, ))
-        training_unit_id = self.cur.fetchone()[0]
-        self.cur.execute('''SELECT id FROM AMLanguage WHERE am_language = ? ''', (am_language, ))
-        am_language_id = self.cur.fetchone()[0]
-        self.cur.execute('''SELECT wer FROM AllResults WHERE am_language_id = ? AND training_unit_id = ? ''', (am_language_id,training_unit_id ))
-        pl_grapheme_results = [item for sublist in self.cur.fetchall() for item in sublist]
-        print(pl_grapheme_results)
-        print(round(sum(pl_grapheme_results) / len(pl_grapheme_results),1))
-
 if __name__ == '__main__':
     wers = CREATEDB()
     import glob
     for fn in glob.iglob('*.log'): 
         if 'paragraph' in fn:
             wers.readin(fn)
-    wers.query_db()
 
     wers.cur.close()
     wers.conn.close()
