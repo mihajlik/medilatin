@@ -1,0 +1,31 @@
+Fájlonkénti statisztika (C, S, D, I, WER%)
+Fridericus-Fridericus_cardinalis-Fridericus-PL                                        31      77       1      28   97.25
+Fridericus-Hradec_Holoubek-Fridericus-CS                                              72      37       0      19   51.38
+Fridericus-Hradec_MBK-Fridericus-CS                                                   65      44       0       7   46.79
+Fridericus-Hradec_Rabai-Fridericus-HU                                                 60      47       2      15   58.72
+Fridericus-Litterae_ex_Slovacia-Fridericus-SK                                         75      31       3      14   44.04
+Fridericus-record20170228204821[1]-Fridericus-LT                                      35      73       1      24   89.91
+Fridericus-record20170228205015[1]-Fridericus-LT                                      46      61       2      15   71.56
+Nicolaus-Hradec_Holoubek-Nicolaus-CS                                                  88      22       0      15   33.64
+Nicolaus-Hradec_MBK-Nicolaus-CS                                                       93      17       0       8   22.73
+Nicolaus-Hradec_Rabai-Nicolaus-HU                                                     79      31       0      13   40.00
+Nicolaus-Litterae_ex_Slovacia-Nicolaus-SK                                             89      21       0      12   30.00
+Nicolaus-Nicolaus_de_Zech-Nicolaus-PL                                                 54      54       2      18   67.27
+Nicolaus-record20170228210031[1]-Nicolaus-LT                                          78      32       0      11   39.09
+Nicolaus-record20170228211427[1]-Nicolaus-LT                                          78      32       0      14   41.82
+Wencezlaus-Hradec_Holoubek-Wencezlaus-CS                                             100      52       0      22   48.68
+Wencezlaus-Hradec_MBK-Wencezlaus-CS                                                  108      41       3      15   38.82
+Wencezlaus-Hradec_Rabai-Wencezlaus-HU                                                 95      56       1      22   51.97
+Wencezlaus-Litterae_ex_Slovacia-Wencezlaus-SK                                        117      32       3      11   30.26
+Wencezlaus-Wenzeslaus-Wencezlaus-PL                                                   51     101       0      42   94.08
+Wencezlaus-record20170228211228[1]-Wencezlaus-LT                                      62      88       2      26   76.32
+Wencezlaus-record20170228212003[1]-Wencezlaus-LT                                      67      81       4      13   64.47
+
+Kategóriánkénti statisztika (C, S, D, I, WER%)
+Fridericus                                                                           384     370       9     122   65.66
+Nicolaus                                                                             559     209       2      91   39.22
+Wencezlaus                                                                           600     451      13     151   57.80
+
+Összesített statisztika (C, S, D, I, WER%)
+összes                                                                              1543    1030      24     364   54.60
+
