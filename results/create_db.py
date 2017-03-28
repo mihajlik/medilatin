@@ -105,10 +105,10 @@ class CREATEDB:
             am_language_list.append('CZ')
         if 'HU' in fn:
             am_language_list.append('HU')
-        if 'RO' in fn:
-            am_language_list.append('RO')
         if 'PL' in fn:
             am_language_list.append('PL')
+        if 'RO' in fn:
+            am_language_list.append('RO')
 
         am_language = '_'.join(am_language_list)
 

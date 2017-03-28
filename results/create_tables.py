@@ -27,25 +27,32 @@ class CREATE_TABLE:
                 AND speaker_language_id = ?
                 AND paragraph_language_id = ? ''', (am_language_id,training_unit_id,speaker_language_id,paragraph_language_id,))
         results = [item for sublist in self.cur.fetchall() for item in sublist]
-        average_wer = round(sum(results) / len(results),1)
-
+        average_wer = self.calculate_average(results)
         return average_wer
+    
+    def calculate_average(self,inlist):
+        return round(sum(inlist) / len(inlist),1)
 
     def write_table(self,am_language,training_unit):
         outname = '%s_%s' % (am_language.lower(),training_unit.lower())
         speaker_languages = ['CZ','HU','PL']
         paragraph_languages = ['CZ','HU','PL']
-        table = [['Native Language','CZ','HU','PL']]
+        table = []
         for speaker_language in speaker_languages:
             row = []
             row.append(speaker_language)
             for paragraph_language in paragraph_languages:
                 wer = self.query_tu_al_sl_pl(training_unit,am_language,speaker_language,paragraph_language)
                 row.append(wer)
+            row.append(self.calculate_average(row[1:]))
             table.append(row)
+        print(table)
+        num_table = [i for i in zip(*table)][1:]
+        last_row = ['Avr.'] + [n for n in map(self.calculate_average,num_table)]
+        table.append(last_row)
             
         with open('../paper/tables/%s.tex' % outname,'w',encoding='utf-8') as outf:
-            outf.write(tabulate.tabulate(table,headers="firstrow",tablefmt="latex"))
+            outf.write(tabulate.tabulate(table,headers=['Speaker','CZ','HU','PL','Avr.'],tablefmt="latex"))
 
     def query_db(self,training_unit,am_language):
         lt = 'LT'
@@ -64,11 +71,15 @@ class CREATE_TABLE:
         print(round(sum(pl_grapheme_results) / len(pl_grapheme_results),1))
 
 if __name__ == '__main__':
-    table_hu_phoneme = CREATE_TABLE()
+    table = CREATE_TABLE()
     ## Extract HU PHONEME results.
     training_unit = 'PHONEME'
     am_language = 'HU'
-    table_hu_phoneme.write_table(am_language,training_unit)
+    table.write_table(am_language,training_unit)
+    ## Extract CZ PHONEME results.
+    training_unit = 'USG'
+    am_language = 'CZ_HU_PL_RO'
+    table.write_table(am_language,training_unit)
 
-    table_hu_phoneme.cur.close()
-    table_hu_phoneme.conn.close()
+    table.cur.close()
+    table.conn.close()
