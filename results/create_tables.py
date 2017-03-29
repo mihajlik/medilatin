@@ -18,14 +18,24 @@ class CREATE_TABLE:
         am_language_id = self.cur.fetchone()[0]
         self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', (speaker_language, ))
         speaker_language_id = self.cur.fetchone()[0]
+        ## Get SK speaker ID.
+        self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', ('SK', ))
+        sk_id = self.cur.fetchone()[0]
         self.cur.execute('''SELECT id FROM ParagraphLanguage WHERE paragraph_language = ? ''', (paragraph_language, ))
         paragraph_language_id = self.cur.fetchone()[0]
         ## TODO: merge SK speaker id.
-        self.cur.execute('''SELECT wer FROM AllResults
-                WHERE am_language_id = ?
-                AND training_unit_id = ?
-                AND speaker_language_id = ?
-                AND paragraph_language_id = ? ''', (am_language_id,training_unit_id,speaker_language_id,paragraph_language_id,))
+        if speaker_language != 'CZ':
+            self.cur.execute('''SELECT wer FROM AllResults
+                    WHERE am_language_id = ?
+                    AND training_unit_id = ?
+                    AND speaker_language_id = ?
+                    AND paragraph_language_id = ? ''', (am_language_id,training_unit_id,speaker_language_id,paragraph_language_id,))
+        else:
+            self.cur.execute('''SELECT wer FROM AllResults
+                    WHERE am_language_id = ?
+                    AND training_unit_id = ?
+                    AND (speaker_language_id = ? OR speaker_language_id = ?)
+                    AND paragraph_language_id = ? ''', (am_language_id,training_unit_id,speaker_language_id,sk_id,paragraph_language_id,))
         results = [item for sublist in self.cur.fetchall() for item in sublist]
         average_wer = self.calculate_average(results)
         return average_wer
@@ -50,9 +60,16 @@ class CREATE_TABLE:
         num_table = [i for i in zip(*table)][1:]
         last_row = ['Avr.'] + [n for n in map(self.calculate_average,num_table)]
         table.append(last_row)
+        table_str = tabulate.tabulate(table,headers=['Speaker','CZ','HU','PL','Avr.'],tablefmt="latex")
+        table_str = self.post_table(table_str)
             
         with open('../paper/tables/%s.tex' % outname,'w',encoding='utf-8') as outf:
-            outf.write(tabulate.tabulate(table,headers=['Speaker','CZ','HU','PL','Avr.'],tablefmt="latex"))
+            outf.write(table_str)
+
+    def post_table(self,table):
+        table = table.replace(' Avr.  ','\hline\n Avr. ')
+        table = table.replace('lrrrr','l|rrr|r')
+        return table
 
     def query_db(self,training_unit,am_language):
         lt = 'LT'
