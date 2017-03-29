@@ -160,7 +160,41 @@ A minibatch size of 512, an initial learning rate of 0.1, and final learning rat
 For our three separately trained baseline systems grapheme-based pronunciation models were used.
 It was based on the same principles described in detail in Section~\ref{simplified}, namely mapping the graphemes not present in the Latin grapheme set to their normalized counterparts.
 \subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
-Using Latin-specific pronunciation rules  
+The Czech and Hungarian phoneme-based acoustic models we used were trained with G2P mapping between orthographic transcriptions and native phonemes.
+The G2P rules were composed with the language model within a WFST framework~\cite{wfst}.
+But since we were using these models for recognizing medieval Latin speech spoken by native speakers of Czech, Hungarian and Polish, Latin-specific pronunciation rules also had to be implemented. 
+These include a few context independent digraph mappings, and a few context dependent rewrite rules, summarized in Table~\ref{tbl:digraph} and Table~\ref{tbl:context} respectively, for both Czech and Hungarian.
+
+\begin{table}\label{tbl:digraph}
+	\centering
+	\caption{Latin digraph context-insensitive rewrite rules.}
+	\begin{tabular}{l|rrrr}
+	\hline
+	Digraph & ae & oe & ph & qu \\
+	\hline
+	CZ & e & oe & f & kv \\
+	HU & e & \o & f & kv \\
+	\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}\label{tbl:context}
+	\centering
+	\caption{Latin context-sensitive rewrite rules.}
+	\begin{tabular}{l|rr|rr|rr|rr}
+	\hline
+	GR & c & c & ch & ch & gu & gu & ti & ti \\
+	PH & ts & k & h & k & gv & gu & tsi & ti \\
+	\hline
+	rule & cVP & cVNP & VC*ch & $\hat{}$C*ch & guV & guC & tiV & tiC \\
+	\hline
+	\end{tabular}
+\end{table}
+
+%Phoneme acoustic model was trained in a classical way: numerous Hungarian manually transcribed speech corpora had been added to the training set. The two main sources of data were the Speecon database [10] and a broadcast speech database we had collected for a previous research [11]. Altogether, a Hungarian language database with a length of more than 500 hours from several thousand speakers was obtained. G2P (Grapheme to Phoneme) mapping between orthographic transcriptions and Hungarian phonemes was performed utilizing language specific rules and pronunciation dictionaries. Eventually the phonetic transcriptions were used for training a context dependent DNN (Deep Neural Network) acoustic model. For further technical details, see Section 4.
+%In the ECE pronunciation system graphemes mostly correspond to individual phonemes with some exceptions. We applied context independent digraph transcriptions such as ‘qu’ → /kv/, ‘ph’→ /f/, ‘ae’ → /e/ and ‘oe’→ /ø/. As for the context sensitive rules ch became /h/ in the presence of a preceding vowel and /k/ otherwise. The consonant ‘c’ became /ts/ if followed by a palatal (front)  vowel, and /k/ otherwise. The letter sequence ‘ti’ became /tsi/ if followed by a vowel and not preceded by ‘s’, ‘t’ or ‘x’, and /ti/ otherwise. Similarly ‘gu’ became /gv/ when followed by a vowel. Other than the above main rules, all geminate consonants became de-geminated (e.g. litteris → /literis/). Finally, the Hungarian phoneme inventory set applied for Latin consisted of 24 elements.
+%The interpolated LM described in Section 2.1 was composed with the appropriate phoneme or grapheme based pronunciation dictionaries in the Weighted finite State Transducer (WFST) framework [17]. After the usual optimization processes the WFST recognition network translates between generalized triphones (or trigraphs) and words. 
+%The mapping of triphones (trigraphs) to senones is performed in the VoXerver WFST‒HMM‒DNN decoder. Approximately the same speed,  faster than real‒time decoding was performed in all experiments.
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
 The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
 \subsubsection{Unified}
