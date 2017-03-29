@@ -157,14 +157,21 @@ The number of senones (and so the size of the DNN softmax output layer) was betw
 The size of the hidden layers was kept constantly on 2.000.
 A minibatch size of 512, an initial learning rate of 0.1, and final learning rate of 0.01 was applied in 20 epochs using the KALDI toolkit~\cite{kaldi}.
 \subsection{Grapheme}
-For our baseline systems grapheme-based pronunciation models were used.
+For our three separately trained baseline systems grapheme-based pronunciation models were used.
+It was based on the same principles described in detail in Section~\ref{simplified}, namely mapping the graphemes not present in the Latin grapheme set to their normalized counterparts.
 \subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
 Using Latin-specific pronunciation rules  
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
 The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
 \subsubsection{Unified}
-These acoustic models need a unified grapheme inventory.
-\subsubsection{Simplified}
+The joint acoustic model requires a unified grapheme inventory for the trainig, so that only thosegraphemes are in the model that are in the intersection of the different grapheme inventory sets of the training languages.
+Those letters that are not in this intersection are mapped to their normalized forms, e.g. it had a diacritic mark (acute, caron, etc.) on it, we mapped it back to its normalized form (\texttt{\v{r}} to \texttt{r}, etc.).
+\subsubsection{Simplified}\label{simplified}
+Since the target dictation language was medieval Latin, the remaining unified grapheme set also had to be simplified to the Latin grapheme set, e.g. \texttt{\'{o}} to \texttt{o}.
+Further than that, those graphemes that are non-native to Latin, and can straightforwardly mapped to a native Latin grapheme(s), were also replaced.
+These are mappings from \texttt{x} to \texttt{ks}, \texttt{y} to \texttt{i} and \texttt{w} to \texttt{v}.
+As a result, a unified and simplified grapheme inventory set was produced, compatible with medieval Latin.
+The USG units were then used as acoustic model units in the training.
 \section{Experimental results}
 \begin{table}
 \parbox{.45\linewidth}{
