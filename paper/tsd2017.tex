@@ -39,10 +39,10 @@
 
 % TSD 2017: Put your title here (please, use capitalization, see e.g.
 % http://en.wikibooks.org/wiki/Basic_Book_Design/Capitalizing_Words_in_Titles)
-\title{Universal Grapheme Model for Medieval Latin Dictation}
+\title{Cross-Native-Language Medieval Latin Dictation}
 
 % TSD 2017: a short form should be given in case the title is too long for the running head
-\titlerunning{Medieval Latin Dictation}
+\titlerunning{Cross-Native-Language Medieval Latin Dictation}
 
 % TSD 2017: Author's names. Chinese authors should write their first names(s)
 % in front of their surnames. This ensures that the names appear correctly in
@@ -87,11 +87,14 @@
 %
 \begin{abstract}
 % TSD 2017:
-Medieval Latin pronunciation is considered to be uniform in the East-Central European (ECE) region.
 We present a medieval Latin charter dictation system which can be of great help for preserving language documents from the same era, since optical character recognition systems often fail to handle historic documents.
-In this paper, we introduce a medieval Latin dictation system for speakers from the ECE region to eliminate the efforts of digitizing medieval Latin charter data.
-In doing so, we train a Unified Grapheme Model (UGM) that can deal with cross-native-langauge variations.
-We show that our methods outperform our baseline system by ...
+Our target era and geographical regions are medieval Latin, and documents originating from the Visegrad region, for speakers with Czech, Hungarian and Polish as their native languages.
+Our baseline systems are separately trained grapheme-based acoustic models for all the above three languages. 
+We introduce two approaches to outperform the separately trained models.
+The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules applied. 
+The second one is training a Unified Simplified Grapheme (UGS) acoustic model that can deal with cross-native-langauge variations.
+%In this paper, we observe
+We show that our methods outperform our baseline system, reducing the WER by ...\% and ...\% respectively.
 % TSD 2017: keywords, comma-separated
 \keywords{dictation, latin, low resource speech recognition}
 \end{abstract}
@@ -116,18 +119,33 @@ Similar work has been done for multi-dialectal languages such as Arabic in~\cite
 
 \section{Data}
 \subsection{Textual data}
-Textual data are scarce for medieval Latin.
-Additionally, most of the available sources mix local languages and Latin with no metadata to separate them.
+As part of out inquiry was to cover linguistic variability accross the ECE region, aquiring textual data posed a few challenges.
+First of all, textual data are scarce for medieval Latin, and texts originating from the ECE geographical region are even more scarce.
+Additionally, most of the available sources mix local languages and Latin, with no metadata to separate them.
 For the scope of this paper, we collected monolingual texts only.
+\subsubsection{Training data}
+A smaller amount of in-domain data (medieval charters) were collected from~\cite{monasterium} (Monasterium), with and overall of 480k tokens.
+These documents are originating from the Hungarian Kingdom, from 1000 to 1524 AD.
+To increase the vocabulary size of the language model, we collected a relatively larger (but still small, compared to state-of-the-art language models used in speech recognition) 1.3 token corpus from~\cite{latinlibrary} (LatinLibrary).
+This corpus consists of literary and historical texts from the post-classical era.
+In spite of our efforts, at the time of writing this paper, we could not gather textual data from the age and area of the Kingdoms of Bohemia and Poland.
+\subsubsection{Test data}
+We selected three-three charters from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL) around 1200-1300 AD as development and test data.
+The dev set was used for evaluating the language model, and the test set to test the performance of our recognizers by having them reading out loud by historians fluent in medieval Latin.
 \subsubsection{Alternate spellings}
-One interesting feature of the corpora is that they contain a significant number of spelling variants.
-Having alternate spellings with identical pronunciation introduces noise, and thus has a negative effect on recognition results.
+One interesting feature of the acquired corpora is that they contain a significant number of spelling variants.
+Having spelling variants in the corpus with identical pronunciation introduces noise, and thus has a negative effect on recognition results.
 We obtained a unified spelling for these variants by favouring the more frequent variant in the corpus (e.g. \textit{maiestati} to \textit{majestati}).
 To detect the spelling variants we took all pairs in the pronunciation dictionary whose pronunciation were identical, and used context and expert knowledge to decide whether the pair of equivalent pronunciations are spelling variants or homophones.
 Where the decision was that they are spelling variants, the less frequent one was replaced by the more frequent one.
-Resolving spelling variants resulted in a more consistent corpus in terms of perplexity, and thus we expected better results with a model built from the corpus where spelling variants had been unified.
+Resolving spelling variants resulted in a more consistent corpus in terms of perplexity (reducing it from 775 to 672), and reduced the OOV rate by 0.8\%.
+Thus we expected to achieve better results with a model built from the corpora where spelling variants had previously been merged.
 %TODO: verbatim text excerpts (cz).
 \subsubsection{Language model}
+The language models we built from the two corpora were estimated with the SRI Language Modeling toolkit (SRILM)~\cite{srilm} using modified Kneser-Ney smoothing method.
+After estimating the mixture parameter, linear interpolation was used.
+
+Our perplexity measures 
 \subsection{Speech data}
 \section{Acoustic modeling}
 \subsection{Grapheme to phoneme mapping}\label{g2p}
@@ -151,6 +169,7 @@ Resolving spelling variants resulted in a more consistent corpus in terms of per
 %TODO: why cz is better with hu phoneme model.
 %TODO: why pl wer is so high.
 \subsection{Conclusions}
+In this paper, we introduced a medieval Latin dictation system for speakers from the ECE region to eliminate the efforts of digitizing medieval Latin charter data.
 With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and a UGM one.
 
 % Bibliography
