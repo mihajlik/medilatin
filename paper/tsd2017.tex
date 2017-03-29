@@ -90,13 +90,13 @@
 We present a medieval Latin charter dictation system which can be of great help for preserving language documents from the same era, since optical character recognition systems often fail to handle historic documents.
 Our target era and geographical regions are medieval Latin, and documents originating from the Visegrad region, for speakers with Czech, Hungarian and Polish as their native languages.
 Our baseline systems are separately trained grapheme-based acoustic models for all the above three languages. 
-We introduce two approaches to outperform the separately trained models.
+We introduce two pronunciation modeling techniques to outperform the separately trained models.
 The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules applied. 
 The second one is training a Unified Simplified Grapheme (UGS) acoustic model that can deal with cross-native-langauge variations.
 %In this paper, we observe
 We show that our methods outperform our baseline system, reducing the WER by ...\% and ...\% respectively.
 % TSD 2017: keywords, comma-separated
-\keywords{dictation, latin, low resource speech recognition}
+\keywords{pronunciation modeling, Latin, low resource speech recognition}
 \end{abstract}
 
 \section{Introduction}
@@ -130,8 +130,8 @@ To increase the vocabulary size of the language model, we collected a relatively
 This corpus consists of literary and historical texts from the post-classical era.
 In spite of our efforts, at the time of writing this paper, we could not gather textual data from the age and area of the Kingdoms of Bohemia and Poland.
 \subsubsection{Test data}
-We selected three-three charters from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL) around 1200-1300 AD as development and test data.
-The dev set was used for evaluating the language model, and the test set to test the performance of our recognizers by having them reading out loud by historians fluent in medieval Latin.
+Using independent sources three-three charters were selected from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL), from around 1200-1300 AD, as development and test data.
+The dev set was used for evaluating the language model, and the test set to test the performance of our recognizers, by having them read out loud by historians fluent in medieval Latin.
 \subsubsection{Alternate spellings}
 One interesting feature of the acquired corpora is that they contain a significant number of spelling variants.
 Having spelling variants in the corpus with identical pronunciation introduces noise, and thus has a negative effect on recognition results.
@@ -139,17 +139,19 @@ We obtained a unified spelling for these variants by favouring the more frequent
 To detect the spelling variants we took all pairs in the pronunciation dictionary whose pronunciation were identical, and used context and expert knowledge to decide whether the pair of equivalent pronunciations are spelling variants or homophones.
 Where the decision was that they are spelling variants, the less frequent one was replaced by the more frequent one.
 Resolving spelling variants resulted in a more consistent corpus in terms of perplexity (reducing it from 775 to 672), and reduced the OOV rate by 0.8\%.
-Thus we expected to achieve better results with a model built from the corpora where spelling variants had previously been merged.
+%Thus we expected to achieve better results with a model built from the corpora where spelling variants had previously been merged.
 %TODO: verbatim text excerpts (cz).
 \subsubsection{Language model}
 The language models we built from the two corpora were estimated with the SRI Language Modeling toolkit (SRILM)~\cite{srilm} using modified Kneser-Ney smoothing method.
 After estimating the mixture parameter, linear interpolation was used.
 
-Our perplexity measures 
+The perplexity measures on the dev data showed that the Monasterium corpus originating from the time and era of the Hungarian Kingdom
 \subsection{Speech data}
 \section{Acoustic modeling}
-\subsection{Grapheme to phoneme mapping}\label{g2p}
+\subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
+Using Latin-specific pronunciation rules  
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
+The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) 
 \section{Experimental results}
 \begin{table}
 \parbox{.45\linewidth}{
@@ -169,8 +171,11 @@ Our perplexity measures
 %TODO: why cz is better with hu phoneme model.
 %TODO: why pl wer is so high.
 \subsection{Conclusions}
-In this paper, we introduced a medieval Latin dictation system for speakers from the ECE region to eliminate the efforts of digitizing medieval Latin charter data.
-With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and a UGM one.
+In this paper, we presented two pronunciation modeling techniques for a cross-native-language medieval Latin dictation system to eliminate the efforts of digitizing medieval Latin charter data.
+With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and UGS modeling.
+The results showed...
+
+Future research directions include acquiring a considerable amount of medieval speech and textual data.
 
 % Bibliography
 \bibliographystyle{splncs03}
