@@ -148,10 +148,23 @@ After estimating the mixture parameter, linear interpolation was used.
 The perplexity measures on the dev data showed that the Monasterium corpus originating from the time and era of the Hungarian Kingdom
 \subsection{Speech data}
 \section{Acoustic modeling}
+For all the different pronunciation modeling methods, the acoustic models were trained as follows.
+Mel-Frequency Cepstrum $+$ Energy features were used with Linear Discriminant Analysis (LDA) + Maximum Likelihood Linear Transformation (MLLT), with a splice context of $\pm4$ frames, 10 ms of frame shift.
+$9\times40$ dimensional spliced up feature vectors served as input to the feed‒forward, 6 hidden‒layer neural network with p‒norm [16] activation function.
+Prior to DNN training, a Gauss Mixture Model (GMM) pre-training was performed.
+Clustering and Regression Tree (CART)~\cite{kaldi} was applied to obtain across‒word context dependent shared state phone (or graph) models and their time alignment.
+The number of senones (and so the size of the DNN softmax output layer) was between 7.000 and 11.000 depending on the nature of the training data.
+The size of the hidden layers was kept constantly on 2.000.
+A minibatch size of 512, an initial learning rate of 0.1, and final learning rate of 0.01 was applied in 20 epochs using the KALDI toolkit~\cite{kaldi}.
+\subsection{Grapheme}
+For our baseline systems grapheme-based pronunciation models were used.
 \subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
 Using Latin-specific pronunciation rules  
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
-The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) 
+The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
+\subsubsection{Unified}
+These acoustic models need a unified grapheme inventory.
+\subsubsection{Simplified}
 \section{Experimental results}
 \begin{table}
 \parbox{.45\linewidth}{
