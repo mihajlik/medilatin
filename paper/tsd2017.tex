@@ -101,25 +101,35 @@ We also observe, that adding more languages to our joint acoustic model further 
 \end{abstract}
 
 \section{Introduction}
-Apart from the two official pronunciations of Latin (classical and ecclesiastical), many regional pronunciations exist varying accross region and era.
-The third most known pronunciation group is the East-Central European (ECE) one, used for medieval Latin.
-Although the target pronunciation is considered to be uniform in this region, it is also has to be taken into account that the acoustic base of the different native languages varies, which can lead to different speakers pronouncing the same words differently.
+The pronunciation of Latin texts mainly depends on the era and region of their origin~\cite{regional}.
+Apart from the two widely studied classical and ecclesiastical pronunciation styles~\cite{allen78}, regional pronunciations exists emerging after the post-classical era.
+One of these pronunciation groups is the Slavic-Uralic~\cite{regional} one, which uses the same pronunciation rules, described in detail in Section~\ref{g2p}.
+Although the target pronunciation is considered to be uniform for this group, it is also has to be taken into account, that the acoustic base of the different native languages varies, which can lead to different speakers pronouncing the same words differently.
 It also has to be noted, that apart from the variations in the pronunciations, orthographic and linguistic variations are also exhibited through regions.
-This raises the question of how to create a dictation system which has to deal with uniform pronunciations for speakers with different native languages reading linguistically different texts.
-We propose a system that is suitable for medieval Latin dictation for all speakers from the ECE region.
-The system we develop is a unified/joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, and the grammatical/lexical variabilities of the texts.
-Our baseline system consists of separately trained grapheme (and phoneme) based acoustic models for the different languages in the ECE region.
+
+This raises the question of how to create a speech recognition system which has to deal with uniform pronunciations for native speakers of different languages reading linguistically different texts.
+We propose a system that is suitable for medieval Latin dictation for all speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in our experiments, due to the lack of speech data.}
+The system we develop is a joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, and the grammatical/lexical variabilities of the texts.
+%TODO: mention data acquisition.
+Therefore, it is important to collect in-domain textual/language data for the language model from the relevant geographican regions and time.
+We describe the data acquisition process in section~\ref{text}.
+
+Our baseline system consists of separately trained grapheme-based acoustic models for the three Visegrad languages (Czech, Hungarian and Polish). 
 These separately trained models work good with their respective native speakers, but perform poorly with speakers of different native languages.
-We apply two different pronunciation modeling techniques to develop a models that are superior to the baseline.
+We apply two different pronunciation modeling techniques to develop models that are superior to the baseline.
 The first one, dicussed in detail in Section~\ref{g2p}, is based on the assumption that 
 The second method we use is USGM (Unified Simplified Grapheme Modeling), where a joint/minimal/common grapheme inventory is established for all the languages paricipating in the joint acoustic model training.
-We describe this method in Section~\ref{usg}.
+We describe the USG method in Section~\ref{usg}.
+Evaluation of the baseline systems and both above approaches is presented in section~\ref{results}.
 
 \subsection{Related work}
 Similar work has been done for multi-dialectal languages such as Arabic in~\cite{elfeky16} where jointly trained acoustic models were outperformed by methods that unify dialect specific-acoustic models using knowledge distillation and multitask learning.
 
+To our knowledge, no previous work has been done on medieval Latin speech recognition, nor on classical Latin for that matter.
+%TODO: mention espeak TTS ?
+
 \section{Data}
-\subsection{Textual data}
+\subsection{Textual data}\label{text}
 As part of out inquiry was to cover linguistic variability accross the ECE region, aquiring textual data posed a few challenges.
 First of all, textual data are scarce for medieval Latin, and texts originating from the ECE geographical region are even more scarce.
 Additionally, most of the available sources mix local languages and Latin, with no metadata to separate them.
@@ -207,7 +217,7 @@ Further than that, those graphemes that are non-native to Latin, and can straigh
 These are mappings from \texttt{x} to \texttt{ks}, \texttt{y} to \texttt{i} and \texttt{w} to \texttt{v}.
 As a result, a unified and simplified grapheme inventory set was produced, compatible with medieval Latin.
 The USG units were then used as acoustic model units in the training.
-\section{Experimental results}
+\section{Experimental results}\label{results}
 \begin{table}
 \parbox{.45\linewidth}{
 \centering
