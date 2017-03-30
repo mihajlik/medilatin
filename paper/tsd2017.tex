@@ -139,7 +139,7 @@ These documents are originating from the Hungarian Kingdom, from 1000 to 1524 AD
 To increase the vocabulary size of the language model, we collected a relatively larger (but still small, compared to state-of-the-art language models used in speech recognition) 1.3 token corpus from~\cite{latinlibrary} (LatinLibrary).
 This corpus consists of literary and historical texts from the post-classical era.
 In spite of our efforts, at the time of writing this paper, we could not gather textual data from the age and area of the Kingdoms of Bohemia and Poland.
-\subsubsection{Test data}
+\subsubsection{Test data}\label{textest}
 Using independent sources three-three charters were selected from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL), from around 1200-1300 AD, for development and test data.
 The dev set was used for evaluating the language model, and to test the performance of our recognizers.
 Both dev and test sets were read out loud by historians fluent in medieval Latin.
@@ -158,7 +158,16 @@ The perplexity measures on the dev data showed, that the Monasterium corpus orig
 Adding the LatinLibrary corpus increased the perplexity significantly, but reduced the OOV rate by $7\%$ on the overall test data, as well as the WER, so we decided to use the interpolated language model.
 
 \subsection{Speech data}
-%Although our experiences show a certain difference between dictational and read speech, there was no other option than to start with read speech, for test purposes. Medieval Latin speakers from several ECE countries were invited  to read aloud the 3 previously described charter texts. Recording conditions were accurately controlled: close‒talking microphones, quiet, non reverberant acoustic environment, fluent, flawless speech and at least 16kHz, 16 bit (linear PCM) encoding. No instructions were given to the speakers on how to pronounce medieval Latin words or named entities. At the end, a 15 speakers data set was collected with following native languages: Czech, Slovakian, Polish, Lithuanian and Hungarian. The overall length of the recorded test speech was around 30 minutes.
+\subsubsection{Training data}
+%TODO: references, hours.
+For Czech and Hungarian the Speecon databases~\cite{czech}~and~\cite{hungarian} and broadcast news speech data was used.
+For Polish, only broadcast news data~\cite{polish} was available, comprising 31 hours of manually transcribed speech.
+\subsubsection{Test data}
+Native speakers of Czech, Hungarian and Polish all of whom have experince with medieval Latin were asked to record the three dev and test sets described in Section~\ref{textest}.
+The recording conditions were accurately controlled: close‒talking microphones, quiet, non reverberant acoustic environment, fluent, flawless speech, and at least 16 kHz, 16 bit (linear PCM) encoding.
+No instructions were given regarding the pronunciation, the speakers were using their expertise on medieval Latin pronunciation rules combined with their native language pronunciation.
+The overall length of the recorded test speech was around 30 minutes.
+
 \section{Acoustic modeling}
 For all the different pronunciation modeling methods, the acoustic models were trained as follows.
 Mel-Frequency Cepstrum $+$ Energy features were used with Linear Discriminant Analysis (LDA) + Maximum Likelihood Linear Transformation (MLLT), with a splice context of $\pm4$ frames, 10 ms of frame shift.
@@ -168,7 +177,7 @@ Clustering and Regression Tree (CART)~\cite{kaldi} was applied to obtain across�
 The number of senones (and so the size of the DNN softmax output layer) was between 7.000 and 11.000 depending on the nature of the training data.
 The size of the hidden layers was kept constantly on 2.000.
 A minibatch size of 512, an initial learning rate of 0.1, and final learning rate of 0.01 was applied in 20 epochs using the KALDI toolkit~\cite{kaldi}.
-\subsection{Grapheme}
+\subsection{Grapheme-based pronunciation modeling}\label{grapheme}
 For our three separately trained baseline systems grapheme-based pronunciation models were used.
 It was based on the same principles described in detail in Section~\ref{simplified}, namely mapping the graphemes not present in the Latin grapheme set to their normalized counterparts.
 \subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
@@ -203,8 +212,7 @@ These include a few context independent digraph mappings, and a few context depe
 	\end{tabular}
 \end{table}
 
-%Phoneme acoustic model was trained in a classical way: numerous Hungarian manually transcribed speech corpora had been added to the training set. The two main sources of data were the Speecon database [10] and a broadcast speech database we had collected for a previous research [11]. Altogether, a Hungarian language database with a length of more than 500 hours from several thousand speakers was obtained. G2P (Grapheme to Phoneme) mapping between orthographic transcriptions and Hungarian phonemes was performed utilizing language specific rules and pronunciation dictionaries. Eventually the phonetic transcriptions were used for training a context dependent DNN (Deep Neural Network) acoustic model. For further technical details, see Section 4.
-%In the ECE pronunciation system graphemes mostly correspond to individual phonemes with some exceptions. We applied context independent digraph transcriptions such as ‘qu’ → /kv/, ‘ph’→ /f/, ‘ae’ → /e/ and ‘oe’→ /ø/. As for the context sensitive rules ch became /h/ in the presence of a preceding vowel and /k/ otherwise. The consonant ‘c’ became /ts/ if followed by a palatal (front)  vowel, and /k/ otherwise. The letter sequence ‘ti’ became /tsi/ if followed by a vowel and not preceded by ‘s’, ‘t’ or ‘x’, and /ti/ otherwise. Similarly ‘gu’ became /gv/ when followed by a vowel. Other than the above main rules, all geminate consonants became de-geminated (e.g. litteris → /literis/). Finally, the Hungarian phoneme inventory set applied for Latin consisted of 24 elements.
+The Latin alphabet we extracted from our corpora (see Section~\ref{text}) consisted of 24 elements.
 %The interpolated LM described in Section 2.1 was composed with the appropriate phoneme or grapheme based pronunciation dictionaries in the Weighted finite State Transducer (WFST) framework [17]. After the usual optimization processes the WFST recognition network translates between generalized triphones (or trigraphs) and words. 
 %The mapping of triphones (trigraphs) to senones is performed in the VoXerver WFST‒HMM‒DNN decoder. Approximately the same speed,  faster than real‒time decoding was performed in all experiments.
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
