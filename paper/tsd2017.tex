@@ -210,13 +210,43 @@ The USG units were then used as acoustic model units in the training.
 \begin{table}
 \parbox{.45\linewidth}{
 \centering
-\caption{Hungarian phoneme}
+\caption{Polish grapheme-based baseline model. Size of acoustic model: 31 hours.}
+\input{tables/pl_grapheme.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{Czech Latin-specific G2P model. Acoustic model size: 76 hours.}
+\input{tables/cz_phoneme.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{Hungarian Latin-specific G2P model. Acoustic model size: 567 hours.}
 \input{tables/hu_phoneme.tex}
 }
 \hfill
 \parbox{.45\linewidth}{
 \centering
-\caption{USG}
+\caption{USG model of Czech (76 hours), Hungarian (112 hours) and Polish (31 hours).}
+\input{tables/cz_hu_pl_usg.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{USG model of Hungarian (112 hours), Polish (31 hours) and Roman (35 hours).}
+\input{tables/hu_pl_ro_usg.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{USG model of Czech (76 hours), Polish (31 hours) and Roman (35 hours).}
+\input{tables/cz_pl_ro_usg.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{USG model of Czech (76 hours), Hungarian (112 hours), Polish (31 hours) and roman (35 hours).}
 \input{tables/cz_hu_pl_ro_usg.tex}
 }
 \end{table}

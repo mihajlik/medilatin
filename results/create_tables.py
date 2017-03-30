@@ -93,9 +93,29 @@ if __name__ == '__main__':
     training_unit = 'PHONEME'
     am_language = 'HU'
     table.write_table(am_language,training_unit)
-    ## Extract CZ PHONEME results.
+    ## Extract CZ_HU_PL_USG results.
+    training_unit = 'USG'
+    am_language = 'CZ_HU_PL'
+    table.write_table(am_language,training_unit)
+    ## Extract HU_PL_RO USG results.
+    training_unit = 'USG'
+    am_language = 'HU_PL_RO'
+    table.write_table(am_language,training_unit)
+    ## Extract CZ_PL_RO USG results.
+    training_unit = 'USG'
+    am_language = 'CZ_PL_RO'
+    table.write_table(am_language,training_unit)
+    ## Extract CZ_HU_PL_RO USG results.
     training_unit = 'USG'
     am_language = 'CZ_HU_PL_RO'
+    table.write_table(am_language,training_unit)
+    ## Extract CZ PHONEME results.
+    training_unit = 'PHONEME'
+    am_language = 'CZ'
+    table.write_table(am_language,training_unit)
+    ## Extract PL GRAPHEME results.
+    training_unit = 'GRAPHEME'
+    am_language = 'PL'
     table.write_table(am_language,training_unit)
 
     table.cur.close()
