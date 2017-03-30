@@ -180,13 +180,13 @@ These include a few context independent digraph mappings, and a few context depe
 
 \begin{table}\label{tbl:context}
 	\centering
-	\caption{Latin context-sensitive rewrite rules.}
-	\begin{tabular}{l|rr|rr|rr|rr}
+	\caption{Latin context-sensitive rewrite rules. V: vowel, VP: palatal vowel, C: consonant, $*$: zero or any, \string^: beginning of word, $[\string^stx]$: not s, t or x.}
+	\begin{tabular}{l|cc|cc|cc|cc}
 	\hline
 	GR & c & c & ch & ch & gu & gu & ti & ti \\
 	PH & ts & k & h & k & gv & gu & tsi & ti \\
 	\hline
-	rule & cVP & cVNP & VC*ch & $\hat{}$C*ch & guV & guC & tiV & tiC \\
+	rule & \multicolumn{1}{c|}{cVP} & \multicolumn{1}{c|}{VNP} & \multicolumn{1}{c|}{VC*ch} & \multicolumn{1}{c|}{\string^C*ch} & \multicolumn{1}{c|}{guV} & \multicolumn{1}{c|}{guC} & \multicolumn{1}{c|}{$[\string^stx]$tiV} & \multicolumn{1}{c|}{tiC} \\
 	\hline
 	\end{tabular}
 \end{table}
