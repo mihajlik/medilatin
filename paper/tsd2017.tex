@@ -87,16 +87,17 @@
 %
 \begin{abstract}
 % TSD 2017:
-We present a medieval Latin charter dictation system which can be of great help for preserving language documents from the same era, since optical character recognition systems often fail to handle historic documents.
-Our target era and geographical regions are medieval Latin, and documents originating from the Visegrad region, for speakers with Czech, Hungarian and Polish as their native languages.
-Our baseline systems are separately trained grapheme-based acoustic models for all the above three languages. 
+We present a medieval Latin charter dictation system which can be of great help for preserving Latin language documents from the same era, as optical character recognition systems are often challenged by historic documents.
+Our goal is to develop a cross-native-language medieval Latin recognizer that performs better than single-language recognizers with mono-lingual speakers.
+Our targets are the Visegrad languages (based on a geographical grouping), with native speakers of Czech, Hungarian and Polish.
+The baseline systems we start with are separately trained grapheme-based acoustic models for all the above three languages. 
 We introduce two pronunciation modeling techniques to outperform the separately trained models.
-The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules applied. 
-The second one is training a Unified Simplified Grapheme (UGS) acoustic model that can deal with cross-native-langauge variations.
-%In this paper, we observe
+The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules implemented. 
+The second one is training a Unified Simplified Grapheme (UGS) acoustic model that can deal with cross-native-language variations.
 We show that our methods outperform our baseline system, reducing the WER by ...\% and ...\% respectively.
+We also observe, that adding more languages to our joint acoustic model further reduces the WER.
 % TSD 2017: keywords, comma-separated
-\keywords{pronunciation modeling, Latin, low resource speech recognition}
+\keywords{G2P, Latin, low resource speech recognition, unified simplified grapheme modeling}
 \end{abstract}
 
 \section{Introduction}
@@ -196,7 +197,7 @@ These include a few context independent digraph mappings, and a few context depe
 %The interpolated LM described in Section 2.1 was composed with the appropriate phoneme or grapheme based pronunciation dictionaries in the Weighted finite State Transducer (WFST) framework [17]. After the usual optimization processes the WFST recognition network translates between generalized triphones (or trigraphs) and words. 
 %The mapping of triphones (trigraphs) to senones is performed in the VoXerver WFST‒HMM‒DNN decoder. Approximately the same speed,  faster than real‒time decoding was performed in all experiments.
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
-The second method we propose for cross-native-langauge Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
+The second method we propose for cross-native-language Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
 \subsubsection{Unified}
 The joint acoustic model requires a unified grapheme inventory for the trainig, so that only thosegraphemes are in the model that are in the intersection of the different grapheme inventory sets of the training languages.
 Those letters that are not in this intersection are mapped to their normalized forms, e.g. it had a diacritic mark (acute, caron, etc.) on it, we mapped it back to its normalized form (\texttt{\v{r}} to \texttt{r}, etc.).
