@@ -69,6 +69,7 @@ class CREATE_TABLE:
     def post_table(self,table):
         table = table.replace(' Avr.  ','\hline\n Avr. ')
         table = table.replace('lrrrr','l|rrr|r')
+        table = table.replace('\hline\n Speaker','\hline\n & \multicolumn{3}{c}{Latin Test Text} & \\\\\n\hline\n Speaker')
         return table
 
     def query_db(self,training_unit,am_language):
