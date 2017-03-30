@@ -110,7 +110,6 @@ It also has to be noted, that apart from the variations in the pronunciations, o
 This raises the question of how to create a speech recognition system which has to deal with uniform pronunciations for native speakers of different languages reading linguistically different texts.
 We propose a system that is suitable for medieval Latin dictation for all speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in our experiments, due to the lack of speech data.}
 The system we develop is a joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, and the grammatical/lexical variabilities of the texts.
-%TODO: mention data acquisition.
 Therefore, it is important to collect in-domain textual/language data for the language model from the relevant geographican regions and time.
 We describe the data acquisition process in section~\ref{text}.
 
@@ -130,34 +129,36 @@ To our knowledge, no previous work has been done on medieval Latin speech recogn
 
 \section{Data}
 \subsection{Textual data}\label{text}
-As part of out inquiry was to cover linguistic variability accross the ECE region, aquiring textual data posed a few challenges.
-First of all, textual data are scarce for medieval Latin, and texts originating from the ECE geographical region are even more scarce.
+As part of out inquiry was to cover linguistic variability accross the Visegrad region, aquiring textual data posed a few challenges.
+First of all, textual data are scarce for medieval Latin, and texts originating from this geographical region are even more scarce.
 Additionally, most of the available sources mix local languages and Latin, with no metadata to separate them.
 For the scope of this paper, we collected monolingual texts only.
 \subsubsection{Training data}
-A smaller amount of in-domain data (medieval charters) were collected from~\cite{monasterium} (Monasterium), with and overall of 480k tokens.
+A smaller amount of in-domain data (medieval charters) were collected from~\cite{monasterium} (Monasterium), with an overall of 480k tokens.
 These documents are originating from the Hungarian Kingdom, from 1000 to 1524 AD.
 To increase the vocabulary size of the language model, we collected a relatively larger (but still small, compared to state-of-the-art language models used in speech recognition) 1.3 token corpus from~\cite{latinlibrary} (LatinLibrary).
 This corpus consists of literary and historical texts from the post-classical era.
 In spite of our efforts, at the time of writing this paper, we could not gather textual data from the age and area of the Kingdoms of Bohemia and Poland.
 \subsubsection{Test data}
-Using independent sources three-three charters were selected from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL), from around 1200-1300 AD, as development and test data.
-The dev set was used for evaluating the language model, and the test set to test the performance of our recognizers, by having them read out loud by historians fluent in medieval Latin.
+Using independent sources three-three charters were selected from the Kingdoms of Bohemia (CZ), Hungary (HU) and Poland (PL), from around 1200-1300 AD, for development and test data.
+The dev set was used for evaluating the language model, and to test the performance of our recognizers.
+Both dev and test sets were read out loud by historians fluent in medieval Latin.
 \subsubsection{Alternate spellings}
 One interesting feature of the acquired corpora is that they contain a significant number of spelling variants.
 Having spelling variants in the corpus with identical pronunciation introduces noise, and thus has a negative effect on recognition results.
-We obtained a unified spelling for these variants by favouring the more frequent variant in the corpus (e.g. \textit{maiestati} to \textit{majestati}).
 To detect the spelling variants we took all pairs in the pronunciation dictionary whose pronunciation were identical, and used context and expert knowledge to decide whether the pair of equivalent pronunciations are spelling variants or homophones.
-Where the decision was that they are spelling variants, the less frequent one was replaced by the more frequent one.
+We obtained a unified spelling for these variants by favouring the more frequent variant in the corpus (e.g. \textit{maiestati} to \textit{majestati}).
 Resolving spelling variants resulted in a more consistent corpus in terms of perplexity (reducing it from 775 to 672), and reduced the OOV rate by 0.8\%.
-%Thus we expected to achieve better results with a model built from the corpora where spelling variants had previously been merged.
 %TODO: verbatim text excerpts (cz).
 \subsubsection{Language model}
 The language models we built from the two corpora were estimated with the SRI Language Modeling toolkit (SRILM)~\cite{srilm} using modified Kneser-Ney smoothing method.
 After estimating the mixture parameter, linear interpolation was used.
 
-The perplexity measures on the dev data showed that the Monasterium corpus originating from the time and era of the Hungarian Kingdom
+The perplexity measures on the dev data showed, that the Monasterium corpus originating from the time and era of the Hungarian Kingdom was indeed best fitting with the Hungarian subset of the test data with a perplexity of 82, and $0.9\%$ OOV rate.
+Adding the LatinLibrary corpus increased the perplexity significantly, but reduced the OOV rate by $7\%$ on the overall test data, as well as the WER, so we decided to use the interpolated language model.
+
 \subsection{Speech data}
+%Although our experiences show a certain difference between dictational and read speech, there was no other option than to start with read speech, for test purposes. Medieval Latin speakers from several ECE countries were invited  to read aloud the 3 previously described charter texts. Recording conditions were accurately controlled: close‒talking microphones, quiet, non reverberant acoustic environment, fluent, flawless speech and at least 16kHz, 16 bit (linear PCM) encoding. No instructions were given to the speakers on how to pronounce medieval Latin words or named entities. At the end, a 15 speakers data set was collected with following native languages: Czech, Slovakian, Polish, Lithuanian and Hungarian. The overall length of the recorded test speech was around 30 minutes.
 \section{Acoustic modeling}
 For all the different pronunciation modeling methods, the acoustic models were trained as follows.
 Mel-Frequency Cepstrum $+$ Energy features were used with Linear Discriminant Analysis (LDA) + Maximum Likelihood Linear Transformation (MLLT), with a splice context of $\pm4$ frames, 10 ms of frame shift.
