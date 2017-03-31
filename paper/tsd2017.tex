@@ -39,10 +39,10 @@
 
 % TSD 2017: Put your title here (please, use capitalization, see e.g.
 % http://en.wikibooks.org/wiki/Basic_Book_Design/Capitalizing_Words_in_Titles)
-\title{Cross-Native-Language Medieval Latin Dictation}
+\title{Cross-Native-Language Medieval Latin Speech Recognition}
 
 % TSD 2017: a short form should be given in case the title is too long for the running head
-\titlerunning{Cross-Native-Language Medieval Latin Dictation}
+\titlerunning{Cross-Native-Language Medieval Latin LVCSR}
 
 % TSD 2017: Author's names. Chinese authors should write their first names(s)
 % in front of their surnames. This ensures that the names appear correctly in
@@ -87,13 +87,13 @@
 %
 \begin{abstract}
 % TSD 2017:
-We present a medieval Latin charter dictation system which can be of great help for preserving Latin language documents from the same era, as optical character recognition systems are often challenged by historic documents.
+We present a medieval Latin charter speech recognition system which can be of great help for preserving Latin language documents from the same era, as optical character recognition systems are often challenged by historic documents.
 Our goal is to develop a cross-native-language medieval Latin recognizer that performs better than single-language recognizers with mono-lingual speakers.
 Our targets are the Visegrad languages (based on a geographical grouping), with native speakers of Czech, Hungarian and Polish.
 The baseline systems we start with are separately trained grapheme-based acoustic models for all the above three languages. 
 We introduce two pronunciation modeling techniques to outperform the separately trained models.
 The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules implemented. 
-The second one is training a Unified Simplified Grapheme (UGS) acoustic model that can deal with cross-native-language variations.
+The second one is training a Unified Simplified Grapheme (USG) acoustic model that can deal with cross-native-language variations.
 We show that our methods outperform our baseline system, reducing the WER by ...\% and ...\% respectively.
 We also observe, that adding more languages to our joint acoustic model further reduces the WER.
 % TSD 2017: keywords, comma-separated
@@ -108,7 +108,7 @@ Although the target pronunciation is considered to be uniform for this group, it
 It also has to be noted, that apart from the variations in the pronunciations, orthographic and linguistic variations are also exhibited through regions.
 
 This raises the question of how to create a speech recognition system which has to deal with uniform pronunciations for native speakers of different languages reading linguistically different texts.
-We propose a system that is suitable for medieval Latin dictation for all speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in our experiments, due to the lack of speech data.}
+We propose a system that is suitable to recognize medieval Latin speech for all speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in our experiments, due to the lack of speech data for acoustic model training.}
 The system we develop is a joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, and the grammatical/lexical variabilities of the texts.
 Therefore, it is important to collect in-domain textual/language data for the language model from the relevant geographican regions and time.
 We describe the data acquisition process in section~\ref{text}.
@@ -172,7 +172,7 @@ The overall length of the recorded test speech was around 30 minutes.
 Building an acoustic model for speech recognition requires long hours of trancribed speech.
 As of today (medieval) Latin is not spoken natively, and as to our knowledge, there is no recorded speech database.
 One obvious way to handle this problem is build/create a medieval Latin database; a proposition that requires lot of time, resources and trained speakers of medieval Latin. 
-Another way of circumvent the lack of available speech data is to use speech data of spoken languages, preferably those ones whose native speakers are going to use the dictation system. 
+Another way of circumvent the lack of available speech data is to use speech data of spoken languages, preferably those ones whose native speakers are going to use the system. 
 
 For all the different pronunciation modeling methods, the acoustic models were trained as follows.
 Mel-Frequency Cepstrum $+$ Energy features were used with Linear Discriminant Analysis (LDA) + Maximum Likelihood Linear Transformation (MLLT), with a splice context of $\pm4$ frames, 10 ms of frame shift.
@@ -221,22 +221,24 @@ The Latin alphabet we extracted from our corpora (see Section~\ref{text}) consis
 %The interpolated LM described in Section 2.1 was composed with the appropriate phoneme or grapheme based pronunciation dictionaries in the Weighted finite State Transducer (WFST) framework [17]. After the usual optimization processes the WFST recognition network translates between generalized triphones (or trigraphs) and words. 
 %The mapping of triphones (trigraphs) to senones is performed in the VoXerver WFST‒HMM‒DNN decoder. Approximately the same speed,  faster than real‒time decoding was performed in all experiments.
 \subsection{Unified Simplified Grapheme Modeling}\label{usg}
-The second method we propose for cross-native-language Latin dictation is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
+The second method we propose for cross-native-language Latin spech recognition is Unified Simplified Grapheme (USG) pronunciation modeling technique, which comes in play when joint acoustic models are being trained to support recognition across multiple languages.
 \subsubsection{Unified}
 The joint acoustic model requires a unified grapheme inventory for the trainig, so that only thosegraphemes are in the model that are in the intersection of the different grapheme inventory sets of the training languages.
 Those letters that are not in this intersection are mapped to their normalized forms, e.g. it had a diacritic mark (acute, caron, etc.) on it, we mapped it back to its normalized form (\texttt{\v{r}} to \texttt{r}, etc.).
 \subsubsection{Simplified}\label{simplified}
-Since the target dictation language was medieval Latin, the remaining unified grapheme set also had to be simplified to the Latin grapheme set, e.g. \texttt{\'{o}} to \texttt{o}.
+Since the target language was medieval Latin, the remaining unified grapheme set also had to be simplified to the Latin grapheme set, e.g. \texttt{\'{o}} to \texttt{o}.
 Further than that, those graphemes that are non-native to Latin, and can straightforwardly mapped to a native Latin grapheme(s), were also replaced.
 These are mappings from \texttt{x} to \texttt{ks}, \texttt{y} to \texttt{i} and \texttt{w} to \texttt{v}.
 As a result, a unified and simplified grapheme inventory set was produced, compatible with medieval Latin.
 The USG units were then used as acoustic model units in the training.
 \section{Experimental results}\label{results}
 We conducted expeiments on medieval Latin, spoken by native speakers of three languages (Czech, Hungarian and Polish), where the test are texts originating from different regions, as described in Sections~\ref{AM}~and~\ref{text}.
-We introduced two techniques to improve the recognition results of our separately trained grapheme-based models, described in~\ref{baseline}.
+We introduced two techniques to improve the recognition results on separately trained grapheme-based models, described in~\ref{baseline}.
 Our experimental results showed that both methods outperformed the baseline system.
-\subsection{Latin-specific G2P rules results}
+\subsection{Latin-specific G2P results}
 \subsection{USG results}
+The Czech-Hungarian-Polish joint acoustic model
+%pool of recognizers
 \begin{table}
 \parbox{.45\linewidth}{
 \centering
@@ -297,8 +299,8 @@ Our experimental results showed that both methods outperformed the baseline syst
 %TODO: why cz is better with hu phoneme model.
 %TODO: why pl wer is so high.
 \subsection{Conclusions}
-In this paper, we presented two pronunciation modeling techniques for a cross-native-language medieval Latin dictation system to eliminate the efforts of digitizing medieval Latin charter data.
-With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and UGS modeling.
+In this paper, we presented two pronunciation modeling techniques for a cross-native-language medieval Latin speech recognizer to eliminate the efforts of digitizing medieval Latin charter data.
+With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and USG modeling.
 The results showed...
 
 Future research directions include acquiring a considerable amount of medieval speech and textual data.
