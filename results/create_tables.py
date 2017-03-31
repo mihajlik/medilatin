@@ -118,6 +118,14 @@ if __name__ == '__main__':
     training_unit = 'GRAPHEME'
     am_language = 'PL'
     table.write_table(am_language,training_unit)
+    ## Extract CZ GRAPHEME results.
+    training_unit = 'GRAPHEME'
+    am_language = 'CZ'
+    table.write_table(am_language,training_unit)
+    ## Extract HU GRAPHEME results.
+    training_unit = 'GRAPHEME'
+    am_language = 'HU'
+    table.write_table(am_language,training_unit)
 
     table.cur.close()
     table.conn.close()
