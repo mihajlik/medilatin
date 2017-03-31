@@ -168,7 +168,12 @@ The recording conditions were accurately controlled: close‒talking microphones
 No instructions were given regarding the pronunciation, the speakers were using their expertise on medieval Latin pronunciation rules combined with their native language pronunciation.
 The overall length of the recorded test speech was around 30 minutes.
 
-\section{Acoustic modeling}
+\section{Acoustic modeling}\label{AM}
+Building an acoustic model for speech recognition requires long hours of trancribed speech.
+As of today (medieval) Latin is not spoken natively, and as to our knowledge, there is no recorded speech database.
+One obvious way to handle this problem is build/create a medieval Latin database; a proposition that requires lot of time, resources and trained speakers of medieval Latin. 
+Another way of circumvent the lack of available speech data is to use speech data of spoken languages, preferably those ones whose native speakers are going to use the dictation system. 
+
 For all the different pronunciation modeling methods, the acoustic models were trained as follows.
 Mel-Frequency Cepstrum $+$ Energy features were used with Linear Discriminant Analysis (LDA) + Maximum Likelihood Linear Transformation (MLLT), with a splice context of $\pm4$ frames, 10 ms of frame shift.
 $9\times40$ dimensional spliced up feature vectors served as input to the feed‒forward, 6 hidden‒layer neural network with p‒norm [16] activation function.
@@ -227,6 +232,11 @@ These are mappings from \texttt{x} to \texttt{ks}, \texttt{y} to \texttt{i} and 
 As a result, a unified and simplified grapheme inventory set was produced, compatible with medieval Latin.
 The USG units were then used as acoustic model units in the training.
 \section{Experimental results}\label{results}
+We conducted expeiments on medieval Latin, spoken by native speakers of three languages (Czech, Hungarian and Polish), where the test are texts originating from different regions, as described in Sections~\ref{AM}~and~\ref{text}.
+We introduced two techniques to improve the recognition results of our separately trained grapheme-based models, described in~\ref{baseline}.
+Our experimental results showed that both methods outperformed the baseline system.
+\subsection{Latin-specific G2P rules results}
+\subsection{USG results}
 \begin{table}
 \parbox{.45\linewidth}{
 \centering
