@@ -39,7 +39,7 @@
 
 % TSD 2017: Put your title here (please, use capitalization, see e.g.
 % http://en.wikibooks.org/wiki/Basic_Book_Design/Capitalizing_Words_in_Titles)
-\title{Target Language Independent Acoustic Modeling for Medieval Latin}
+\title{Target Language-Independent Acoustic Modeling for Medieval Latin}
 
 % TSD 2017: a short form should be given in case the title is too long for the running head
 \titlerunning{Cross-Native-Language Medieval Latin LVCSR}
@@ -88,8 +88,9 @@
 \begin{abstract}
 % TSD 2017:
 We present a medieval Latin charter speech recognition system which can be of great help for preserving Latin language documents from the same era, as optical character recognition systems are often challenged by historic documents.
-Our goal is to develop a cross-native-language medieval Latin recognizer that performs better than single-language recognizers with mono-lingual speakers.
-Our targets are the Visegrad languages (based on a geographical grouping), with native speakers of Czech, Hungarian and Polish.
+Our goal is to develop a medieval Latin recognizer that is built from multiple source languages but the target language.
+%We that performs better than single-language recognizers with mono-lingual speakers.
+Our source languages for the acoustic model are the Visegrad languages (based on a geographical grouping): Czech, Hungarian and Polish.
 The baseline systems we start with are separately trained grapheme-based acoustic models for all the above three languages. 
 We introduce two pronunciation modeling techniques to outperform the separately trained models.
 The first one is using grapheme-to-phoneme (G2P) mapping with Latin-specific pronunciation rules implemented. 
@@ -97,19 +98,20 @@ The second one is training a Unified Simplified Grapheme (USG) acoustic model th
 We show that our methods outperform our baseline system, reducing the WER by ...\% and ...\% respectively.
 We also observe, that adding more languages to our joint acoustic model further reduces the WER.
 % TSD 2017: keywords, comma-separated
-\keywords{G2P, Latin, low resource speech recognition, unified simplified grapheme modeling}
+\keywords{G2P, medieval Latin, low resource speech recognition, unified simplified grapheme modeling}
 \end{abstract}
 
 \section{Introduction}
 The pronunciation of Latin texts mainly depends on the era and region of their origin~\cite{regional}.
 Apart from the two widely studied classical and ecclesiastical pronunciation styles~\cite{allen78}, regional pronunciations exists emerging after the post-classical era.
 One of these pronunciation groups is the Slavic-Uralic~\cite{regional} one, which uses the same pronunciation rules, described in detail in Section~\ref{g2p}.
-Although the target pronunciation is considered to be uniform for this group, it is also has to be taken into account, that the acoustic base of the different native languages varies, which can lead to different speakers pronouncing the same words differently.
-It also has to be noted, that apart from the variations in the pronunciations, orthographic and linguistic variations are also exhibited through regions.
+Although the target pronunciation is considered to be uniform for this group, it is also has to be taken into account, that the acoustic base of the different source languages varies, which can lead to different speakers pronouncing the same words differently.
+It also has to be noted, that apart from the variations in the pronunciations, orthographic and linguistic variations of Latin are also exhibited through regions.
 
+% The research goal of this paper is to create a speech regognition system from three source languages 
 This raises the question of how to create a speech recognition system which has to deal with uniform pronunciations for native speakers of different languages reading linguistically different texts.
-We propose a system that is suitable to recognize medieval Latin speech for all speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in our experiments, due to the lack of speech data for acoustic model training.}
-The system we develop is a joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, and the grammatical/lexical variabilities of the texts.
+We propose a system that is suitable to recognize medieval Latin speech spoken by speakers from the Visegrad region.\footnote{Sadly, but for this paper, although it belongs to the Visegrad region, the Slovakian language is not included in the experiments, due to the lack of speech data for acoustic model training.}
+The system we develop is a joint system that can deal with both the variability in the speakers' pronunciations when speaking medieval Latin, as well as the grammatical/lexical variabilities of the target texts.
 Therefore, it is important to collect in-domain textual/language data for the language model from the relevant geographican regions and time.
 We describe the data acquisition process in section~\ref{text}.
 
@@ -274,6 +276,12 @@ The Czech-Hungarian-Polish joint acoustic model
 \centering
 \caption{USG model of Czech (76 hours), Hungarian (112 hours) and Polish (31 hours).}
 \input{tables/cz_hu_pl_usg.tex}
+}
+\hfill
+\parbox{.45\linewidth}{
+\centering
+\caption{USG model of Czech (76 hours), Hungarian (112 hours) and Roman (35 hours).}
+\input{tables/cz_hu_ro_usg.tex}
 }
 \hfill
 \parbox{.45\linewidth}{
