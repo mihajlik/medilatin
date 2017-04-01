@@ -2,6 +2,7 @@
 
 import sqlite3
 import tabulate
+from collections import OrderedDict
 
 class CREATE_TABLE:
 
@@ -72,21 +73,41 @@ class CREATE_TABLE:
         table = table.replace('\hline\n Speaker','\hline\n & \multicolumn{3}{c}{Latin Test Text} & \\\\\n\hline\n Speaker')
         return table
 
-    def query_db(self,training_unit,am_language):
-        lt = 'LT'
+    def query_baseline(self,training_unit):
+        results_dict = {}
+        am_languages = ['CZ','HU','PL']
+        speaker_languages = ['CZ','HU','PL']
         self.cur.execute('''SELECT id FROM TrainingUnit WHERE training_unit = ? ''', (training_unit, ))
         training_unit_id = self.cur.fetchone()[0]
-        self.cur.execute('''SELECT id FROM AMLanguage WHERE am_language = ? ''', (am_language, ))
-        am_language_id = self.cur.fetchone()[0]
-        self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', (lt, ))
-        speaker_language_id = self.cur.fetchone()[0]
-        self.cur.execute('''SELECT wer FROM AllResults
-                WHERE am_language_id = ?
-                AND training_unit_id = ?
-                AND speaker_language_id != ? ''', (am_language_id,training_unit_id,lt ))
-        pl_grapheme_results = [item for sublist in self.cur.fetchall() for item in sublist]
-        print(pl_grapheme_results)
-        print(round(sum(pl_grapheme_results) / len(pl_grapheme_results),1))
+        for am_language in am_languages:
+            results_dict[am_language] = []
+            print('AM LANGUAGE',am_language,am_languages)
+            self.cur.execute('''SELECT id FROM AMLanguage WHERE am_language = ? ''', (am_language, ))
+            am_language_id = self.cur.fetchone()[0]
+            for speaker_language in speaker_languages:
+                print('SPEAKER LANG',speaker_language,speaker_languages)
+                self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', (speaker_language, ))
+                speaker_language_id = self.cur.fetchone()[0]
+                if speaker_language == 'CZ':
+                    self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', ('SK', ))
+                    sk_id = self.cur.fetchone()[0]
+
+                    self.cur.execute('''SELECT wer FROM AllResults
+                            WHERE am_language_id = ?
+                            AND training_unit_id = ?
+                            AND (speaker_language_id = ? OR speaker_language_id = ?) ''', (am_language_id,training_unit_id,speaker_language_id,sk_id ))
+                else:
+                    self.cur.execute('''SELECT wer FROM AllResults
+                            WHERE am_language_id = ?
+                            AND training_unit_id = ?
+                            AND speaker_language_id = ? ''', (am_language_id,training_unit_id,speaker_language_id, ))
+
+                results = [item for sublist in self.cur.fetchall() for item in sublist]
+                average_wer = self.calculate_average(results)
+                results_dict[am_language].append(average_wer)
+
+        print([[k,results_dict[k]] for k in results_dict.keys()])
+        return results_dict
 
 if __name__ == '__main__':
     table = CREATE_TABLE()
@@ -130,6 +151,9 @@ if __name__ == '__main__':
     training_unit = 'GRAPHEME'
     am_language = 'HU'
     table.write_table(am_language,training_unit)
+    ## Create baseline table.
+    training_unit = 'GRAPHEME'
+    table.query_baseline(training_unit)
 
     table.cur.close()
     table.conn.close()
