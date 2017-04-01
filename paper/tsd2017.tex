@@ -184,7 +184,7 @@ Clustering and Regression Tree (CART)~\cite{kaldi} was applied to obtain acrossâ
 The number of senones (and so the size of the DNN softmax output layer) was between 7.000 and 11.000 depending on the nature of the training data.
 The size of the hidden layers was kept constantly on 2.000.
 A minibatch size of 512, an initial learning rate of 0.1, and final learning rate of 0.01 was applied in 20 epochs using the KALDI toolkit~\cite{kaldi}.
-\subsection{Grapheme-based pronunciation modeling}\label{grapheme}
+\subsection{Grapheme-based pronunciation modeling}\label{baseline}
 For our three separately trained baseline systems grapheme-based pronunciation models were used.
 It was based on the same principles described in detail in Section~\ref{simplified}, namely mapping the graphemes not present in the Latin grapheme set to their normalized counterparts.
 \subsection{Grapheme to phoneme mapping (G2P)}\label{g2p}
@@ -242,6 +242,12 @@ Our experimental results showed that both methods outperformed the baseline syst
 The Czech-Hungarian-Polish joint acoustic model
 %pool of recognizers
 \begin{table}
+\parbox{.45\linewidth}{
+\centering
+\caption{Results for separately trained grapheme-based models of Czech (76 hours), Hungarian (112 hours) and Polish (31 hours).}
+\input{tables/cz_hu_pl_grapheme.tex}
+}
+\hfill
 \parbox{.45\linewidth}{
 \centering
 \caption{Czech grapheme-based baseline model. Size of acoustic model: 76 hours.}
@@ -307,7 +313,7 @@ The Czech-Hungarian-Polish joint acoustic model
 %TODO: why cz is better with hu phoneme model.
 %TODO: why pl wer is so high.
 \subsection{Conclusions}
-In this paper, we presented two pronunciation modeling techniques for a cross-native-language medieval Latin speech recognizer to eliminate the efforts of digitizing medieval Latin charter data.
+In this paper, we presented two pronunciation modeling techniques for a target-language independent medieval Latin speech recognizer to eliminate the efforts of digitizing medieval Latin charter data.
 With the objective of outperforming the separately trained grapheme-based models, we presented two approaches: an expert G2P modeling, and USG modeling.
 The results showed...
 

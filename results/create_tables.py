@@ -63,7 +63,7 @@ class CREATE_TABLE:
         table.append(last_row)
         table_str = tabulate.tabulate(table,headers=['Speaker','CZ','HU','PL','Avr.'],tablefmt="latex")
         table_str = self.post_table(table_str)
-            
+
         with open('../paper/tables/%s.tex' % outname,'w',encoding='utf-8') as outf:
             outf.write(table_str)
 
@@ -71,6 +71,7 @@ class CREATE_TABLE:
         table = table.replace(' Avr.  ','\hline\n Avr. ')
         table = table.replace('lrrrr','l|rrr|r')
         table = table.replace('\hline\n Speaker','\hline\n & \multicolumn{3}{c}{Latin Test Text} & \\\\\n\hline\n Speaker')
+        table = table.replace('\hline\n AM Language','\hline\n & \multicolumn{3}{c}{Speaker} & \\\\\n\hline\n AM Language')
         return table
 
     def query_baseline(self,training_unit):
@@ -81,11 +82,9 @@ class CREATE_TABLE:
         training_unit_id = self.cur.fetchone()[0]
         for am_language in am_languages:
             results_dict[am_language] = []
-            print('AM LANGUAGE',am_language,am_languages)
             self.cur.execute('''SELECT id FROM AMLanguage WHERE am_language = ? ''', (am_language, ))
             am_language_id = self.cur.fetchone()[0]
             for speaker_language in speaker_languages:
-                print('SPEAKER LANG',speaker_language,speaker_languages)
                 self.cur.execute('''SELECT id FROM SpeakerLanguage WHERE speaker_language = ? ''', (speaker_language, ))
                 speaker_language_id = self.cur.fetchone()[0]
                 if speaker_language == 'CZ':
@@ -106,8 +105,29 @@ class CREATE_TABLE:
                 average_wer = self.calculate_average(results)
                 results_dict[am_language].append(average_wer)
 
-        print([[k,results_dict[k]] for k in results_dict.keys()])
+        results_list = [[k,results_dict[k]] for k in results_dict.keys()]
+        print(results_list)
         return results_dict
+
+    def write_baseline_table(self,baseline_dict):
+        outname = 'cz_hu_pl_grapheme'
+        table = []
+        for am_language in baseline_dict.keys():
+            wers = baseline_dict[am_language]
+            row = []
+            row.append(am_language)
+            row.extend(wers)
+            last_column = self.calculate_average(wers)
+            row.append(last_column)
+            table.append(row)
+
+        table = sorted(table)
+
+        table_str = tabulate.tabulate(table,headers=['AM Language','CZ','HU','PL','Avr.'],tablefmt="latex")
+        table_str = self.post_table(table_str)
+
+        with open('../paper/tables/%s.tex' % outname,'w',encoding='utf-8') as outf:
+            outf.write(table_str)
 
 if __name__ == '__main__':
     table = CREATE_TABLE()
@@ -153,7 +173,8 @@ if __name__ == '__main__':
     table.write_table(am_language,training_unit)
     ## Create baseline table.
     training_unit = 'GRAPHEME'
-    table.query_baseline(training_unit)
+    baseline_dict = table.query_baseline(training_unit)
+    table.write_baseline_table(baseline_dict)
 
     table.cur.close()
     table.conn.close()
